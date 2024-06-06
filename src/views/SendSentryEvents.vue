@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import FormError from "../views/FormError.vue";
+import FormMessage from "../views/FormMessage.vue";
+
 const org = ref<string>(import.meta.env.VITE_SENTRY_ORG);
 const project = ref<string>(import.meta.env.VITE_SENTRY_PROJECT);
 const dsn = ref<string>(import.meta.env.VITE_SENTRY_DSN);
@@ -15,5 +18,8 @@ const dsn = ref<string>(import.meta.env.VITE_SENTRY_DSN);
         <div>DSN = {{ dsn }}</div>
       </div>
     </div>
+
+    <FormMessage class="mt-6 rounded-lg border p-4"></FormMessage>
+    <FormError class="mt-6 rounded-lg border p-4"></FormError>
   </div>
 </template>
