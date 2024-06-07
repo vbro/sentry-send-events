@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { ref } from "vue";
+import FormClick from "../views/FormClick.vue";
 import FormError from "../views/FormError.vue";
 import FormMessage from "../views/FormMessage.vue";
+import FormSpan from "../views/FormSpan.vue";
 
 const org = ref<string>(import.meta.env.VITE_SENTRY_ORG);
 const project = ref<string>(import.meta.env.VITE_SENTRY_PROJECT);
@@ -21,5 +23,7 @@ const dsn = ref<string>(import.meta.env.VITE_SENTRY_DSN);
 
     <FormMessage class="mt-6 rounded-lg border p-4"></FormMessage>
     <FormError class="mt-6 rounded-lg border p-4"></FormError>
+    <FormSpan class="mt-6 rounded-lg border p-4"></FormSpan>
+    <FormClick class="mt-6 rounded-lg border p-4"></FormClick>
   </div>
 </template>

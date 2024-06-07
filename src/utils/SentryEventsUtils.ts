@@ -1,13 +1,17 @@
 import type { Scope, Span } from "@sentry/vue";
 import * as Sentry from "@sentry/vue";
 
-export function sendMessage(message: string, messageCount: number) {
+const sleep = (ms = 0) => new Promise((resolve) => setTimeout(resolve, ms));
+const DEFAULT_SLEEP_MS = 10;
+
+export async function sendMessage(message: string, messageCount: number) {
   for (let i = 0; i < messageCount; i++) {
     Sentry.captureMessage(message);
+    await sleep(DEFAULT_SLEEP_MS);
   }
 }
 
-export function sendError(errorType: string, errorMessage: string, errorCount: number) {
+export async function sendError(errorType: string, errorMessage: string, errorCount: number) {
   let e: Error;
 
   switch (errorType) {
@@ -35,10 +39,11 @@ export function sendError(errorType: string, errorMessage: string, errorCount: n
 
   for (let i = 0; i < errorCount; i++) {
     Sentry.captureException(e);
+    await sleep(DEFAULT_SLEEP_MS);
   }
 }
 
-export function sendTransactions(txns: number = 1, spansPerTxn: number = 1) {
+export async function sendTransactions(txns: number = 1, spansPerTxn: number = 1) {
   const timestamp = new Date().toISOString();
 
   for (let i = 0; i < txns; i++) {
@@ -59,7 +64,7 @@ export function sendTransactions(txns: number = 1, spansPerTxn: number = 1) {
             timestamp: timestamp,
           },
         },
-        (span1: Span) => {
+        async (span1: Span) => {
           for (let j = 0; j < spansPerTxn; j++) {
             const spanName = `span_${timestamp}_${i}_${j}`;
 
@@ -81,6 +86,7 @@ export function sendTransactions(txns: number = 1, spansPerTxn: number = 1) {
               }
             );
           }
+          await sleep(DEFAULT_SLEEP_MS);
         }
       );
     });
